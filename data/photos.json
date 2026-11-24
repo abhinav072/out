@@ -18,12 +18,13 @@
     "home": 5
   },
   {
-    "id": "fashion-03",
-    "src": "",
-    "title": "",
+    "id": "ALP08267_rhr4yn",
+    "src": "v1795543692/ALP08267_rhr4yn.webp",
+    "title": "Long shadow",
     "cat": "Fashion",
-    "ratio": 1.5,
-    "selected": true
+    "ratio": 0.67,
+    "selected": true,
+    "featured": 2
   },
   {
     "id": "fashion-04",
@@ -78,7 +79,6 @@
     "title": "Where the river bends",
     "cat": "Landscape",
     "ratio": 1.78,
-    "featured": 1,
     "selected": true
   },
   {
@@ -159,7 +159,6 @@
     "title": "Monsoon fields",
     "cat": "Street",
     "ratio": 0.8,
-    "featured": 2,
     "selected": true
   },
   {
@@ -168,7 +167,8 @@
     "title": "Halo",
     "cat": "Event",
     "ratio": 0.67,
-    "selected": true
+    "selected": true,
+    "featured": 3
   },
   {
     "id": "ABS09305_dkqri7",
@@ -197,8 +197,7 @@
     "src": "v1744020496/ABS09812_upy5hm.jpg",
     "title": "Under the lights",
     "cat": "Event",
-    "ratio": 0.67,
-    "featured": 3
+    "ratio": 0.67
   },
   {
     "id": "ABS08923_ve7qyj",
@@ -446,5 +445,13 @@
     "cat": "Landscape",
     "ratio": 1.78,
     "home": 11
+  },
+  {
+    "id": "ABS00894_jgxao6",
+    "src": "v1744020707/ABS00894_jgxao6.webp",
+    "title": "Stage fire",
+    "cat": "Event",
+    "ratio": 1.5,
+    "featured": 1
   }
 ]
