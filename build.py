@@ -110,8 +110,8 @@ def foot(active="", base=""):
     soc = (f'<a href="{t("contact.instagram")}" target="_blank" rel="noopener">Instagram</a>'
            f'<a href="{t("contact.pinterest")}" target="_blank" rel="noopener">Pinterest</a>'
            f'<a href="{t("contact.facebook")}" target="_blank" rel="noopener">Facebook</a>')
-    return (f'<footer class="sitefoot"><svg class="ft-river" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">'
-            f'<path pathLength="1" d="M0 22 C 120 6, 220 34, 340 20 S 560 4, 700 18 S 940 38, 1060 16 S 1170 10, 1200 18"/></svg>'
+    return (f'<footer class="sitefoot"><svg class="ft-river ft-ridge" viewBox="0 0 1200 320" preserveAspectRatio="none" aria-hidden="true">'
+            f'<path d="M0 59.8 L18 68.7 L45 77.2 L51 74.2 L67 47.9 L74 42.2 L95 32.3 L98 32.0 L103 36.0 L110 34.2 L147 89.1 L213 127.3 L224 129.0 L237 127.2 L250 139.8 L260 138.6 L266 144.8 L275 138.0 L288 118.3 L296 118.3 L308 122.9 L313 119.0 L323 117.1 L433 43.2 L467 40.0 L487 49.9 L507 44.8 L541 12.8 L553 6.2 L560 6.6 L568 9.0 L587 27.6 L612 34.4 L619 33.0 L626 35.0 L634 34.2 L641 39.0 L648 40.8 L654 47.8 L662 52.8 L679 58.8 L687 65.5 L700 67.6 L706 73.3 L719 79.7 L734 111.3 L744 111.1 L759 115.8 L769 115.9 L787 129.5 L795 131.8 L809 140.6 L847 174.0 L875 174.6 L910 222.9 L919 221.0 L932 222.6 L940 218.0 L952 221.0 L962 219.0 L968 224.2 L974 225.0 L997 223.0 L1011 219.2 L1043 234.9 L1051 236.1 L1063 255.9 L1069 259.9 L1080 277.1 L1088 279.4 L1094 286.1 L1107 293.0 L1120 286.0 L1123 286.2 L1128 294.0 L1148 292.2 L1162 317.5 L1165 320.0 L1179 313.2 L1199 312.0"/></svg>'
             f'<div class="ft-head"><span class="caps muted">Explore</span><a class="caps muted ft-top" href="#top">Back to top ↑</a></div>'
             f'<nav class="ft-pages" aria-label="Footer">{links}</nav>'
             f'<div class="ft-base">{ed("site.footer")}<nav class="ft-soc">{soc}</nav>'
