@@ -129,6 +129,17 @@
   }
   if (document.readyState === "complete") setupScrollRiver(); else window.addEventListener("load", setupScrollRiver);
 
+  /* ---------- Footer: the river line draws in; back to top scrolls smoothly ---------- */
+  var ft = document.querySelector(".sitefoot");
+  if (ft) {
+    if ("IntersectionObserver" in window) {
+      var fo = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { ft.classList.add("in"); fo.disconnect(); } }, { threshold: 0.15 });
+      fo.observe(ft);
+    } else ft.classList.add("in");
+    var up = ft.querySelector(".ft-top");
+    if (up) up.addEventListener("click", function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
+  }
+
   /* ---------- Before / after sliders ---------- */
   document.querySelectorAll(".compare").forEach(function (c) {
     var r = c.querySelector("input");

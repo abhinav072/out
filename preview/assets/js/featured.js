@@ -1,29 +1,50 @@
-/* Homepage Featured: the first photo grows from a framed print to full screen as you scroll;
-   the next two drift up at slightly different speeds. */
+/* Homepage: the Featured photo opens up as it scrolls into view, the two smaller ones drift;
+   the introduction's words darken as you read down. */
 (function () {
   "use strict";
-  var A = document.getElementById("feat-a");
-  if (!A) return;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var track = A.querySelector(".fa-track"), frame = A.querySelector(".fa-frame"), title = A.querySelector(".fa-title");
-  var pair = Array.prototype.slice.call(A.querySelectorAll(".fa-pair figure"));
-  if (!track) return;
-  function clamp(v) { return Math.max(0, Math.min(1, v)); }
-  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  var editing = location.hash === "#edit";
+  try { editing = editing || sessionStorage.getItem("editing") === "1"; } catch (e) {}
+
+  // Featured: reveal on view
+  var sets = Array.prototype.slice.call(document.querySelectorAll("#feat-a .fa-set"));
+  if ("IntersectionObserver" in window && !reduce) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.2 });
+    sets.forEach(function (s) { io.observe(s); });
+  } else sets.forEach(function (s) { s.classList.add("in"); });
+
+  // Featured: parallax on the pair
+  var pair = Array.prototype.slice.call(document.querySelectorAll("#feat-a .fa-pair figure"));
+
+  // Introduction: split into words (not while editing, so the text stays plain)
+  var words = [];
+  var lead = document.querySelector(".hello-lead");
+  if (lead && !editing && !reduce) {
+    Array.prototype.forEach.call(lead.querySelectorAll("[data-edit]"), function (el) {
+      var parts = el.textContent.split(/(\s+)/);
+      el.textContent = "";
+      parts.forEach(function (p) {
+        if (/^\s+$/.test(p) || !p) { el.appendChild(document.createTextNode(p)); return; }
+        var s = document.createElement("span"); s.className = "w"; s.textContent = p; el.appendChild(s); words.push(s);
+      });
+    });
+  }
+
   function update() {
-    var r = track.getBoundingClientRect(), vh = window.innerHeight, vw = document.documentElement.clientWidth;
-    var p = reduce ? 1 : ease(clamp(-r.top / (r.height - vh)));
-    var small = vw <= 640 ? 0.86 : 0.56;
-    frame.style.width = ((small + (1 - small) * p) * 100) + "vw";
-    frame.style.height = (((vw <= 640 ? 0.62 : 0.6) + 0.4 * p) * 100) + "vh";
-    frame.style.setProperty("--zoom", String(1.18 - 0.18 * p));
-    var tp = clamp((p - 0.55) / 0.3);
-    title.style.opacity = String(tp);
-    title.style.transform = "translate(-50%, " + ((1 - tp) * 16) + "px)";
+    var vh = window.innerHeight;
     pair.forEach(function (f) {
+      if (!f.offsetParent) return;
       var fr = f.getBoundingClientRect(), mid = fr.top + fr.height / 2 - vh / 2;
       f.style.transform = reduce ? "" : "translateY(" + (mid * parseFloat(f.dataset.speed)).toFixed(1) + "px)";
     });
+    if (words.length) {
+      var r = lead.getBoundingClientRect();
+      var p = Math.max(0, Math.min(1, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+      var n = Math.round(p * words.length);
+      for (var i = 0; i < words.length; i++) words[i].classList.toggle("on", i < n);
+    }
   }
   update();
   window.addEventListener("scroll", update, { passive: true });

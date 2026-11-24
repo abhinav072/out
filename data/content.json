@@ -35,6 +35,12 @@
     "intro_label": "Introduction",
     "intro_lead": "Photographer and filmmaker based in Prayagraj, India.",
     "intro_body": "Fashion, live events, streets, architecture and landscapes — photographed for the feeling as much as the frame.",
+    "fact1_label": "Based in",
+    "fact1": "Prayagraj, India — travelling across the country",
+    "fact2_label": "Shoots",
+    "fact2": "Fashion · Events · Street · Landscape · Architecture",
+    "fact3_label": "Also",
+    "fact3": "Films, reels and short-form edits",
     "intro_link_about": "About me",
     "intro_link_book": "Book a shoot",
     "genres_label": "Browse by genre",
@@ -72,11 +78,26 @@
     "available_link": "Get in touch",
     "services_label": "Services",
     "services": [
-      { "name": "Fashion", "text": "Editorial, lookbook and portrait shoots for designers, labels and models." },
-      { "name": "Events & concerts", "text": "Concerts, performances and festivals, from soundcheck to encore." },
-      { "name": "Street & documentary", "text": "Candid stories of people, rituals and everyday life." },
-      { "name": "Architecture & places", "text": "Heritage sites, buildings and landscapes, with care for light and line." },
-      { "name": "Films & video", "text": "Trailers, teasers, event films and short-form edits — directed, shot and edited." }
+      {
+        "name": "Fashion",
+        "text": "Editorial, lookbook and portrait shoots for designers, labels and models."
+      },
+      {
+        "name": "Events & concerts",
+        "text": "Concerts, performances and festivals, from soundcheck to encore."
+      },
+      {
+        "name": "Street & documentary",
+        "text": "Candid stories of people, rituals and everyday life."
+      },
+      {
+        "name": "Architecture & places",
+        "text": "Heritage sites, buildings and landscapes, with care for light and line."
+      },
+      {
+        "name": "Films & video",
+        "text": "Trailers, teasers, event films and short-form edits — directed, shot and edited."
+      }
     ],
     "video_label": "Videography",
     "video_text": "I direct, shoot and edit films and short-form edits — trailers, teasers, event films and reels.",
@@ -89,7 +110,15 @@
     "lead": "Tell me about your shoot, event or film — dates, location and what you need. I’ll get back to you personally.",
     "form_note": "Opens your email app with the message ready to send.",
     "form_button": "Send",
-    "work_types": ["Fashion", "Event / concert", "Street & documentary", "Architecture & places", "Film / video", "Short-form edit", "Something else"]
+    "work_types": [
+      "Fashion",
+      "Event / concert",
+      "Street & documentary",
+      "Architecture & places",
+      "Film / video",
+      "Short-form edit",
+      "Something else"
+    ]
   },
   "notfound": {
     "title": "This page doesn’t exist.",

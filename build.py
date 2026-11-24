@@ -97,16 +97,25 @@ def bar(active, base=""):
     menu = (f'<div class="mnav" id="mnav" hidden><svg class="mlines" aria-hidden="true"></svg>'
             f'<div class="mbadge" aria-hidden="true">{MBADGE}</div><nav class="mlinks" aria-label="Menu">{mlinks}</nav>'
             f'<div class="mfoot"><a class="caps" href="mailto:{esc(EMAIL)}">{esc(EMAIL)}</a>'
-            f'<span><a href="{t("contact.instagram")}">Instagram</a> &nbsp;·&nbsp; <a href="tel:{esc(TEL)}">{esc(PHONE)}</a></span>'
+            f'<span><a href="{t("contact.instagram")}" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <a href="tel:{esc(TEL)}">{esc(PHONE)}</a></span>'
             f'<span>{t("site.location")}</span></div></div>')
     return (f'<header class="bar"><a class="name" href="{base or "./"}">{t("site.name")}</a>'
             f'<nav class="nav" aria-label="Main">{nav}</nav><button class="menu caps" type="button">Menu</button></header>' + menu)
 
 
-def foot(base=""):
-    return (f'<footer class="sitefoot">{ed("site.footer")}<nav>'
-            f'<a href="{t("contact.instagram")}" rel="noopener">Instagram</a><a href="{t("contact.pinterest")}" rel="noopener">Pinterest</a>'
-            f'<a href="{t("contact.facebook")}" rel="noopener">Facebook</a><a href="mailto:{esc(EMAIL)}">{esc(EMAIL)}</a></nav></footer>')
+def foot(active="", base=""):
+    pages = [(base or "./", "Home")] + [(base + h, l) for h, l in NAV]
+    wave = '<svg class="wave" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 4 C 8 0, 17 0, 25 4 S 42 8, 50 4 S 67 0, 75 4 S 92 8, 100 4"/></svg>'
+    links = "".join(f'<a href="{h}"{" aria-current=\"page\"" if l == active else ""}><span>{l}</span>{wave}</a>' for h, l in pages)
+    soc = (f'<a href="{t("contact.instagram")}" target="_blank" rel="noopener">Instagram ↗</a>'
+           f'<a href="{t("contact.pinterest")}" target="_blank" rel="noopener">Pinterest ↗</a>'
+           f'<a href="{t("contact.facebook")}" target="_blank" rel="noopener">Facebook ↗</a>')
+    return (f'<footer class="sitefoot"><svg class="ft-river" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">'
+            f'<path pathLength="1" d="M0 22 C 120 6, 220 34, 340 20 S 560 4, 700 18 S 940 38, 1060 16 S 1170 10, 1200 18"/></svg>'
+            f'<div class="ft-head"><span class="caps muted">Explore</span><a class="caps muted ft-top" href="#top">Back to top ↑</a></div>'
+            f'<nav class="ft-pages" aria-label="Footer">{links}</nav>'
+            f'<div class="ft-base">{ed("site.footer")}<nav class="ft-soc">{soc}</nav>'
+            f'<a class="ft-mail" href="mailto:{esc(EMAIL)}">{esc(EMAIL)}</a></div></footer>')
 
 
 def scripts(names, base=""):
@@ -127,21 +136,30 @@ def page_home():
     strip += (f'<figure><a class="end" href="portfolio.html"><div><b data-edit="home.strip_end_title">{t("home.strip_end_title")}</b>'
               f'{ed("home.strip_end_sub", cls="caps muted")}</div></a></figure>')
     feat = by("featured")
-    # Featured: the first photo grows from a framed print to full screen as you scroll
+    # Featured: one large framed photo and two smaller ones. On phones a portrait photo leads.
+    def fa_block(main, rest, cls):
+        if not main:
+            return ""
+        h = (f'<div class="fa-set {cls}"><figure class="fa-frame" style="--r:{main["ratio"]}"><div class="fa-img"><img src="{img(main["src"], "f_auto,q_auto,w_2000")}" alt="{esc(main["title"])}" loading="lazy"></div>'
+             f'<figcaption><span class="caps">No. 01 — {lab(main["cat"])}</span><h3>{esc(main["title"])}</h3></figcaption></figure>')
+        if rest:
+            h += '<div class="fa-pair">' + "".join(
+                f'<figure data-speed="{sp}"><img src="{img(p["src"], "f_auto,q_auto,w_1200,c_fill,ar_4:5,g_auto")}" alt="{esc(p["title"])}" loading="lazy"><figcaption>No. 0{i + 2} — {esc(p["title"])}<span>{lab(p["cat"])}</span></figcaption></figure>'
+                for i, (p, sp) in enumerate(zip(rest[:2], ("0.12", "-0.08")))) + "</div>"
+        return h + "</div>"
     fa = ""
     if feat:
-        w = feat[0]
-        fa = (f'<div class="fa-track"><div class="fa-sticky"><figure class="fa-frame"><img src="{img(w["src"], "f_auto,q_auto,w_2400")}" alt="{esc(w["title"])}" loading="lazy"></figure>'
-              f'<div class="fa-title"><span class="caps">No. 01 — {lab(w["cat"])}</span><h3>{esc(w["title"])}</h3></div></div></div>')
-        if len(feat) > 1:
-            fa += '<div class="fa-pair">' + "".join(
-                f'<figure data-speed="{sp}"><img src="{img(p["src"], "f_auto,q_auto,w_1200,c_fill,ar_4:5,g_auto")}" alt="{esc(p["title"])}" loading="lazy"><figcaption>No. 0{i + 2} — {esc(p["title"])}<span>{lab(p["cat"])}</span></figcaption></figure>'
-                for i, (p, sp) in enumerate(zip(feat[1:3], ("0.12", "-0.08")))) + "</div>"
+        mob = next((p for p in feat if p["ratio"] < 1), feat[0])
+        if mob is feat[0]:
+            fa = fa_block(feat[0], feat[1:3], "")
+        else:
+            fa = fa_block(feat[0], feat[1:3], "fa-d") + fa_block(mob, [p for p in feat if p is not mob][:2], "fa-m")
     films = "".join(
         f'<a href="videography.html#films"><div class="fr"><img src="{VID}{f["poster"]}/w_1400,f_auto,q_auto/{f["src"]}.jpg" alt="" loading="lazy">'
         f'<span class="play">Play</span></div><p><span>{esc(f["title"])}</span><span>{esc(f.get("caption") or f.get("kind", ""))}</span></p></a>'
         for f in FILMS[:2])
     before, after = "v1742964206/Before_wd7ubm.jpg", "v1742964213/After_jahjvd.jpg"
+    portrait = img("v1744039751/ABS09606-foto_itaa9d.png", "c_crop,w_0.7,h_0.7,g_center/w_900,h_1125,c_fill,f_auto,q_auto")
     return head("home", "has-intro", "&family=Work+Sans:wght@600") + f'''
 <div class="intro" id="intro" aria-hidden="true">
   <svg class="lines"></svg>
@@ -154,11 +172,19 @@ def page_home():
 <footer class="foot">{ed("home.strip_label", cls="caps muted")}<div class="ctl"><div class="arrows"><button id="prev" type="button" aria-label="Previous photo">{ARROW_L}</button><button id="next" type="button" aria-label="Next photo">{ARROW_R}</button></div></div></footer>
 </div>
 
-<section class="hsec"><div class="intro2">
-  {ed("home.intro_label", cls="caps muted")}
-  <div><p>{ed("home.intro_lead")} <span data-edit="home.intro_body">{t("home.intro_body")}</span></p>
-  <div class="links"><a class="link" href="about.html" data-edit="home.intro_link_about">{t("home.intro_link_about")}</a><a class="link" href="contact.html" data-edit="home.intro_link_book">{t("home.intro_link_book")}</a></div></div>
-</div></section>
+<section class="hsec hello">
+  <div class="hello-photo"><img src="{portrait}" alt="Portrait of {t("site.name")}" loading="lazy"><svg class="hello-ring" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="hr-c" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><circle class="disc" cx="100" cy="100" r="98"/><text><textPath href="#hr-c" textLength="486" lengthAdjust="spacing">ABHINAV SINGH · SHADES OF INDIA · PHOTO &amp; FILM · </textPath></text></svg></div>
+  <div class="hello-text">
+    {ed("home.intro_label", cls="caps muted")}
+    <p class="hello-lead"><span data-edit="home.intro_lead">{t("home.intro_lead")}</span> <span class="b" data-edit="home.intro_body">{t("home.intro_body")}</span></p>
+    <dl class="facts">
+      <div><dt class="caps muted" data-edit="home.fact1_label">{t("home.fact1_label")}</dt><dd data-edit="home.fact1">{t("home.fact1")}</dd></div>
+      <div><dt class="caps muted" data-edit="home.fact2_label">{t("home.fact2_label")}</dt><dd data-edit="home.fact2">{t("home.fact2")}</dd></div>
+      <div><dt class="caps muted" data-edit="home.fact3_label">{t("home.fact3_label")}</dt><dd data-edit="home.fact3">{t("home.fact3")}</dd></div>
+    </dl>
+    <div class="links"><a class="link" href="about.html" data-edit="home.intro_link_about">{t("home.intro_link_about")}</a><a class="link" href="contact.html" data-edit="home.intro_link_book">{t("home.intro_link_book")}</a></div>
+  </div>
+</section>
 
 <section class="hsec">
   <div class="shead">{ed("home.genres_label", cls="caps")}<a class="caps muted" href="portfolio.html" data-edit="home.genres_link">{t("home.genres_link")}</a></div>
@@ -188,7 +214,7 @@ def page_home():
   {ed("home.cta_title", "h2")}
   <div class="row"><a class="btn caps" href="contact.html" data-edit="home.cta_button">{t("home.cta_button")}</a><a class="link" href="mailto:{esc(EMAIL)}">{esc(EMAIL)}</a></div>
 </section>
-{foot()}
+{foot("Home")}
 ''' + scripts(["gindex", "home", "featured", "intro"])
 
 
@@ -200,7 +226,7 @@ def page_portfolio():
   <div class="jgrid" id="grid"></div>
   <section class="more" id="more" hidden><div class="shead more-head">{ed("portfolio.more_label", cls="caps")}{ed("portfolio.more_sub", cls="caps muted")}</div><div class="gindex" id="gindex"></div></section>
 </main>
-{foot()}
+{foot("Portfolio")}
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
   <div class="top"><span class="muted" id="lbn"></span><button class="caps" id="lbx" type="button">Close</button></div>
   <div class="stage"><img id="lbi" alt=""></div>
@@ -244,7 +270,7 @@ def page_videography():
     <div class="shorts">{shorts}</div>
   </section>
 </main>
-{foot()}
+{foot("Videography")}
 <div class="vlb" id="vlb" hidden role="dialog" aria-modal="true" aria-label="Video player"><button class="caps vlb-x" type="button">Close</button><video controls playsinline></video></div>
 ''' + scripts(["videography"])
 
@@ -277,7 +303,7 @@ def page_about():
     </div>
   </div>
 </main>
-{foot()}
+{foot("About")}
 ''' + scripts([])
 
 
@@ -294,7 +320,7 @@ def page_contact():
         <li><span class="caps">Email</span><a href="mailto:{esc(EMAIL)}" data-edit="contact.email" data-kind="email">{esc(EMAIL)}</a></li>
         <li><span class="caps">Phone</span><a href="tel:{esc(TEL)}" data-edit="contact.phone" data-kind="phone">{esc(PHONE)}</a></li>
         <li><span class="caps">Based in</span>{ed("contact.address")}</li>
-        <li><span class="caps">Social</span><span><a class="link" href="{t("contact.instagram")}" rel="noopener">Instagram</a> &nbsp; <a class="link" href="{t("contact.pinterest")}" rel="noopener">Pinterest</a> &nbsp; <a class="link" href="{t("contact.facebook")}" rel="noopener">Facebook</a></span></li>
+        <li><span class="caps">Social</span><span><a class="link" href="{t("contact.instagram")}" target="_blank" rel="noopener">Instagram</a> &nbsp; <a class="link" href="{t("contact.pinterest")}" target="_blank" rel="noopener">Pinterest</a> &nbsp; <a class="link" href="{t("contact.facebook")}" target="_blank" rel="noopener">Facebook</a></span></li>
       </ul>
     </div>
     <form class="form" id="contact-form" data-email="{esc(EMAIL)}" novalidate>
@@ -306,7 +332,7 @@ def page_contact():
     </form>
   </div>
 </main>
-{foot()}
+{foot("Contact")}
 ''' + scripts(["contact"])
 
 
