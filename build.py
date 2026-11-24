@@ -80,7 +80,7 @@ def head(page, extra_class="", extra_fonts="", base=""):
 <meta property="og:url" content="{SITE_URL}/{path}"><meta property="og:image" content="{SITE_URL}/og-image.jpg"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500{extra_fonts}&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500{extra_fonts}&display=swap">
 <link rel="icon" href="{base}assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{base}assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{base}assets/brand/apple-touch-icon.png">
@@ -160,7 +160,12 @@ def page_home():
         f'<span class="play">Play</span></div><p><span>{esc(f["title"])}</span><span>{esc(f.get("caption") or f.get("kind", ""))}</span></p></a>'
         for f in FILMS[:2])
     before, after = "v1742964206/Before_wd7ubm.jpg", "v1742964213/After_jahjvd.jpg"
-    portrait = img("v1744039751/ABS09606-foto_itaa9d.png", "c_crop,w_0.7,h_0.7,g_center/w_900,h_1125,c_fill,f_auto,q_auto")
+    # small photos set into the introduction sentence: you, a fashion frame, an event frame
+    _f = next((p for p in PHOTOS if p["cat"] == "Fashion" and p.get("src")), None)
+    _e = next((p for p in by("featured") if p["cat"] == "Event"), None) or next((p for p in PHOTOS if p["cat"] == "Event" and p.get("src")), None)
+    _pill = "c_fill,w_360,h_200,g_auto,f_auto,q_auto"
+    pills = esc(json.dumps([img("v1744039751/ABS09606-foto_itaa9d.png", "c_crop,w_0.7,h_0.7,g_center/c_fill,w_360,h_200,g_face,f_auto,q_auto")]
+                           + [img(p["src"], _pill) for p in (_f, _e) if p]))
     return head("home", "has-intro", "&family=Work+Sans:wght@600") + f'''
 <div class="intro" id="intro" aria-hidden="true">
   <svg class="lines"></svg>
@@ -174,16 +179,19 @@ def page_home():
 </div>
 
 <section class="hsec hello">
-  <div class="hello-photo"><img src="{portrait}" alt="Portrait of {t("site.name")}" loading="lazy"><svg class="hello-ring" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="hr-c" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><circle class="disc" cx="100" cy="100" r="98"/><text><textPath href="#hr-c" textLength="486" lengthAdjust="spacing">ABHINAV SINGH · SHADES OF INDIA · PHOTO &amp; FILM · </textPath></text></svg></div>
-  <div class="hello-text">
-    {ed("home.intro_label", cls="caps muted")}
-    <p class="hello-lead"><span data-edit="home.intro_lead">{t("home.intro_lead")}</span> <span class="b" data-edit="home.intro_body">{t("home.intro_body")}</span></p>
-    <dl class="facts">
+  <div class="hello-top">{ed("home.intro_label", cls="caps")}<span class="caps muted">{t("intro.coords")}</span></div>
+  <h2 class="hello-lead" data-pills="{pills}" data-edit="home.intro_lead">{t("home.intro_lead")}</h2>
+  <div class="hello-grid">
+    <div class="hello-body">
+      <p data-edit="home.intro_body">{t("home.intro_body")}</p>
+      <div class="links"><a class="link" href="about.html" data-edit="home.intro_link_about">{t("home.intro_link_about")}</a><a class="link" href="contact.html" data-edit="home.intro_link_book">{t("home.intro_link_book")}</a></div>
+    </div>
+    <dl class="hfacts">
       <div><dt class="caps muted" data-edit="home.fact1_label">{t("home.fact1_label")}</dt><dd data-edit="home.fact1">{t("home.fact1")}</dd></div>
       <div><dt class="caps muted" data-edit="home.fact2_label">{t("home.fact2_label")}</dt><dd data-edit="home.fact2">{t("home.fact2")}</dd></div>
       <div><dt class="caps muted" data-edit="home.fact3_label">{t("home.fact3_label")}</dt><dd data-edit="home.fact3">{t("home.fact3")}</dd></div>
     </dl>
-    <div class="links"><a class="link" href="about.html" data-edit="home.intro_link_about">{t("home.intro_link_about")}</a><a class="link" href="contact.html" data-edit="home.intro_link_book">{t("home.intro_link_book")}</a></div>
+    <svg class="hello-ring" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="hr-c" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><text><textPath href="#hr-c" textLength="486" lengthAdjust="spacing">ABHINAV SINGH · SHADES OF INDIA · PHOTO &amp; FILM · </textPath></text><circle cx="100" cy="100" r="3"/></svg>
   </div>
 </section>
 

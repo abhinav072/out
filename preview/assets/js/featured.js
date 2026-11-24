@@ -18,18 +18,27 @@
   // Featured: parallax on the pair
   var pair = Array.prototype.slice.call(document.querySelectorAll("#feat-a .fa-pair figure"));
 
-  // Introduction: split into words (not while editing, so the text stays plain)
-  var words = [];
-  var lead = document.querySelector(".hello-lead");
-  if (lead && !editing && !reduce) {
-    Array.prototype.forEach.call(lead.querySelectorAll("[data-edit]"), function (el) {
-      var parts = el.textContent.split(/(\s+)/);
-      el.textContent = "";
-      parts.forEach(function (p) {
-        if (/^\s+$/.test(p) || !p) { el.appendChild(document.createTextNode(p)); return; }
-        var s = document.createElement("span"); s.className = "w"; s.textContent = p; el.appendChild(s); words.push(s);
+  // Introduction: set small photos into the sentence (after the 1st and 3rd words and at the end),
+  // then open them up when the section comes into view. Not while editing, so the text stays plain.
+  var hello = document.querySelector(".hello"), lead = hello && hello.querySelector(".hello-lead");
+  if (lead && !editing) {
+    var urls = []; try { urls = JSON.parse(lead.getAttribute("data-pills") || "[]"); } catch (e) {}
+    var words = lead.textContent.trim().split(/\s+/), at = [0, 2, words.length - 1], k = 0;
+    if (urls.length && words.length > 3) {
+      lead.textContent = "";
+      words.forEach(function (w, i) {
+        lead.appendChild(document.createTextNode((i ? " " : "") + w));
+        if (at.indexOf(i) > -1 && urls[k]) {
+          lead.appendChild(document.createTextNode(" "));
+          var p = document.createElement("span"); p.className = "pill"; p.setAttribute("aria-hidden", "true");
+          var im = document.createElement("img"); im.src = urls[k++]; im.alt = ""; im.loading = "lazy"; p.appendChild(im); lead.appendChild(p);
+        }
       });
-    });
+    }
+    if ("IntersectionObserver" in window && !reduce) {
+      var ho = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { hello.classList.add("in"); ho.disconnect(); } }, { threshold: 0.35 });
+      ho.observe(hello);
+    } else hello.classList.add("in");
   }
 
   function update() {
@@ -39,12 +48,6 @@
       var fr = f.getBoundingClientRect(), mid = fr.top + fr.height / 2 - vh / 2;
       f.style.transform = reduce ? "" : "translateY(" + (mid * parseFloat(f.dataset.speed)).toFixed(1) + "px)";
     });
-    if (words.length) {
-      var r = lead.getBoundingClientRect();
-      var p = Math.max(0, Math.min(1, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
-      var n = Math.round(p * words.length);
-      for (var i = 0; i < words.length; i++) words[i].classList.toggle("on", i < n);
-    }
   }
   update();
   window.addEventListener("scroll", update, { passive: true });
