@@ -1,12 +1,10 @@
-/* Homepage: filmstrip arrows + counter, genre index. */
+/* Homepage: filmstrip arrows, genre index. */
 (function () {
   "use strict";
   var strip = document.getElementById("strip");
   if (window.renderGenreIndex) renderGenreIndex(document.getElementById("gindex"));
   if (!strip) return;
   var figs = Array.prototype.slice.call(strip.children);
-  var total = figs.length - 1; // last card is "See the full portfolio"
-  var count = document.getElementById("count");
 
   // phones open on an upright photo, so it fills the screen
   if (window.innerWidth <= 640 && figs.length > 2) {
@@ -30,9 +28,4 @@
   }
   document.getElementById("prev").addEventListener("click", function () { go(-1); });
   document.getElementById("next").addEventListener("click", function () { go(1); });
-  strip.addEventListener("scroll", function () {
-    var x = strip.scrollLeft, t = offsets(), i = t.findIndex(function (v) { return v > x + 40; });
-    i = i < 0 ? total : Math.max(1, i);
-    count.textContent = String(Math.min(i, total)).padStart(2, "0") + " / " + String(total).padStart(2, "0");
-  }, { passive: true });
 })();

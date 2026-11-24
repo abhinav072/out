@@ -85,7 +85,7 @@ def head(page, extra_class="", extra_fonts="", base=""):
 <link rel="icon" href="{base}assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{base}assets/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="{base}assets/css/site.css">
-<script>try{{if(sessionStorage.getItem("rt")==="1"){{sessionStorage.removeItem("rt");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rt-arrive")}}}}catch(e){{}}</script>
+<script>try{{if(sessionStorage.getItem("rt")==="1"){{sessionStorage.removeItem("rt");if(!matchMedia("(prefers-reduced-motion: reduce)").matches){{var d=document.documentElement;d.classList.add("rt-arrive");d.style.setProperty("--rt-name",JSON.stringify(sessionStorage.getItem("rtName")||""))}}}}}}catch(e){{}}</script>
 </head><body>'''
 
 
@@ -126,7 +126,6 @@ def page_home():
                   f'alt="{esc(p["title"])}" style="aspect-ratio:{p["ratio"]}"></div><figcaption>{esc(p["title"])}<span>{lab(p["cat"])}</span></figcaption></figure>')
     strip += (f'<figure><a class="end" href="portfolio.html"><div><b data-edit="home.strip_end_title">{t("home.strip_end_title")}</b>'
               f'{ed("home.strip_end_sub", cls="caps muted")}</div></a></figure>')
-    n = len(by("home"))
     feat = by("featured")
     featured = ""
     if feat:
@@ -150,7 +149,7 @@ def page_home():
 <div class="home">
 {bar("")}
 <main class="strip" id="strip">{strip}</main>
-<footer class="foot">{ed("home.strip_label", cls="caps muted")}<div class="ctl"><span class="muted" id="count">01 / {n:02d}</span><div class="arrows"><button id="prev" type="button" aria-label="Previous photo">{ARROW_L}</button><button id="next" type="button" aria-label="Next photo">{ARROW_R}</button></div></div></footer>
+<footer class="foot">{ed("home.strip_label", cls="caps muted")}<div class="ctl"><div class="arrows"><button id="prev" type="button" aria-label="Previous photo">{ARROW_L}</button><button id="next" type="button" aria-label="Next photo">{ARROW_R}</button></div></div></footer>
 </div>
 
 <section class="hsec"><div class="intro2">

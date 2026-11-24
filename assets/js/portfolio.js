@@ -14,7 +14,7 @@
 
   filters.innerHTML = cats.map(function (c) {
     var n = c === "All" ? PHOTOS.filter(function (p) { return p.selected; }).length : PHOTOS.filter(function (p) { return p.cat === c; }).length;
-    return '<button data-c="' + c.toLowerCase() + '">' + esc(c === "All" ? (filters.dataset.selectedLabel || "Selected") : (lab[c] || c)) + "<sup>" + n + "</sup></button>";
+    return '<button data-c="' + c.toLowerCase() + '">' + esc(c === "All" ? (filters.dataset.selectedLabel || "Selected") : (lab[c] || c)) + "</button>";
   }).join("") + '<svg class="fwave" viewBox="0 0 40 8" preserveAspectRatio="none" aria-hidden="true"><path d="M0 4 Q 5 0 10 4 T 20 4 T 30 4 T 40 4"/></svg>';
   var wave = filters.querySelector(".fwave");
 
@@ -175,7 +175,6 @@
     var r = real(); at = (n + r.length) % r.length; var p = r[at];
     lbi.src = cld(p.src, 2000);
     lbt.innerHTML = esc(p.title) + ' <span class="muted">— ' + (lab[p.cat] || p.cat) + "</span>";
-    lbn.textContent = String(at + 1).padStart(2, "0") + " / " + r.length;
     lb.hidden = false;
   }
   grid.addEventListener("click", function (e) {

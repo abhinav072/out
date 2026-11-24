@@ -55,18 +55,15 @@
   }
   function fileOf(u) { return u.pathname.split("/").pop() || "index.html"; }
 
-  var arriving = document.documentElement.classList.contains("rt-arrive");
-  if (arriving && !reduce) {
-    label(fileOf(location));
-    rt.className = "rt cover show-lbl";
-    frame("out", 0);
-    document.documentElement.classList.remove("rt-arrive");
-    // arriving: the page name is showing on the river sheet — fade it away to reveal the page (no second sweep)
+  // arriving: the head script already painted the cover with the page name (same spot as before the
+  // page changed), so the name shows once and stays steady — then the cover fades away
+  var root = document.documentElement;
+  if (root.classList.contains("rt-arrive")) {
     setTimeout(function () {
-      rt.classList.add("fade");
-      setTimeout(function () { rt.className = "rt"; }, 650);
-    }, 380);
-  } else document.documentElement.classList.remove("rt-arrive");
+      root.classList.add("rt-go");
+      setTimeout(function () { root.classList.remove("rt-arrive", "rt-go"); root.style.removeProperty("--rt-name"); }, 700);
+    }, 420);
+  }
   window.addEventListener("pageshow", function (e) { if (e.persisted) rt.className = "rt"; });
 
   document.addEventListener("click", function (e) {
@@ -80,7 +77,7 @@
     e.preventDefault();
     label(fileOf(url));
     rt.className = "rt cover";
-    try { sessionStorage.setItem("rt", "1"); } catch (err) {}
+    try { sessionStorage.setItem("rt", "1"); sessionStorage.setItem("rtName", PAGES[fileOf(url)] || ""); } catch (err) {}
     run("in", 900, function () {
       rt.classList.add("show-lbl");
       setTimeout(function () { location.href = url.href; }, 420);
