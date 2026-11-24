@@ -50,7 +50,7 @@
   }
   function label(file) {
     var k = ORDER.indexOf(file);
-    lblNo.textContent = k >= 0 ? ("0" + (k + 1)) : "";
+    lblNo.textContent = "";   // page name only, no number
     lblNm.textContent = PAGES[file] || "";
   }
   function fileOf(u) { return u.pathname.split("/").pop() || "index.html"; }
@@ -61,10 +61,11 @@
     rt.className = "rt cover show-lbl";
     frame("out", 0);
     document.documentElement.classList.remove("rt-arrive");
+    // arriving: the page name is showing on the river sheet — fade it away to reveal the page (no second sweep)
     setTimeout(function () {
-      rt.classList.remove("show-lbl");
-      run("out", 1050, function () { rt.className = "rt"; });
-    }, 320);
+      rt.classList.add("fade");
+      setTimeout(function () { rt.className = "rt"; }, 650);
+    }, 380);
   } else document.documentElement.classList.remove("rt-arrive");
   window.addEventListener("pageshow", function (e) { if (e.persisted) rt.className = "rt"; });
 
@@ -130,34 +131,6 @@
     window.addEventListener("load", function () { place(); update(); });
   }
   if (document.readyState === "complete") setupScrollRiver(); else window.addEventListener("load", setupScrollRiver);
-
-  /* ---------- 3. Viewfinder cursor (mouse only) ---------- */
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    var vf = document.createElement("div");
-    vf.className = "vf";
-    vf.setAttribute("aria-hidden", "true");
-    vf.innerHTML = '<i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i><span class="lbl"></span>';
-    document.body.appendChild(vf);
-    var lbl = vf.querySelector(".lbl");
-    var SEL_PLAY = ".player, .hfilms .fr, .films .fr, .short .vframe, .film-frame";
-    var SEL_VIEW = ".jitem:not(.ph-box), .strip figure .img, .genre .im, .feature figure img, .work .ph, .portrait";
-    var tx = -100, ty = -100, x = -100, y = -100, on = false;
-    document.addEventListener("mousemove", function (e) {
-      tx = e.clientX; ty = e.clientY;
-      var t = e.target.closest ? e.target : null;
-      var play = t && t.closest(SEL_PLAY), view = !play && t && t.closest(SEL_VIEW);
-      var next = !!(play || view);
-      if (next) lbl.textContent = play ? "Play" : "View";
-      if (next !== on) { on = next; vf.classList.toggle("on", on); document.documentElement.classList.toggle("vf-active", on); }
-      if (!on) { x = tx; y = ty; }
-    }, { passive: true });
-    document.addEventListener("mouseleave", function () { on = false; vf.classList.remove("on"); document.documentElement.classList.remove("vf-active"); });
-    (function loop() {
-      x += (tx - x) * (reduce ? 1 : 0.28); y += (ty - y) * (reduce ? 1 : 0.28);
-      vf.style.transform = "translate(" + f(x) + "px," + f(y) + "px)";
-      requestAnimationFrame(loop);
-    })();
-  }
 
   /* ---------- Before / after sliders ---------- */
   document.querySelectorAll(".compare").forEach(function (c) {

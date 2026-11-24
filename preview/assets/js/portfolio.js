@@ -78,11 +78,11 @@
         var t = pat[pi++ % pat.length];
         if (t === "full") {
           var land = qd.filter(function (p) { return p.r >= 1.3; })[0];
-          if (!land) t = "single"; else { qd.splice(qd.indexOf(land), 1); out += '<div class="erow e-full"><figure>' + tile(land, "", "aspect-ratio:" + land.r) + capBelow(land) + "</figure></div>"; continue; }
+          if (!land) t = "single"; else { qd.splice(qd.indexOf(land), 1); out += '<div class="erow e-full"><figure style="--r:' + land.r + '">' + tile(land, "", "aspect-ratio:" + land.r) + capBelow(land) + "</figure></div>"; continue; }
         }
         var n = t === "trio" ? 3 : (t === "single" ? 1 : 2), cells = [];
         for (var c = 0; c < n && qd.length; c++) cells.push(t === "single" ? take(qd, function (p) { return p.r < 1.2; }) : qd.shift());
-        out += '<div class="erow e-' + t + '">' + cells.map(function (p) { return "<figure>" + tile(p, "", "aspect-ratio:" + p.r) + capBelow(p) + "</figure>"; }).join("") + "</div>";
+        out += '<div class="erow e-' + t + '">' + cells.map(function (p) { return "<figure style=\"--r:" + p.r + "\">" + tile(p, "", "aspect-ratio:" + p.r) + capBelow(p) + "</figure>"; }).join("") + "</div>";
       }
       grid.innerHTML = out;
     } else if (MODE === "bento") {
