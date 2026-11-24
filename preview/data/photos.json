@@ -9,12 +9,13 @@
     "home": 2
   },
   {
-    "id": "fashion-02",
-    "src": "",
-    "title": "",
+    "id": "ALP04464-7_vxarpm",
+    "src": "v1795541915/ALP04464-7_vxarpm.webp",
+    "title": "Steel & gold",
     "cat": "Fashion",
-    "ratio": 0.8,
-    "selected": true
+    "ratio": 1.5,
+    "selected": true,
+    "home": 5
   },
   {
     "id": "fashion-03",
@@ -413,8 +414,7 @@
     "src": "v1757513766/ABS09543_ksnryp.webp",
     "title": "After the rain",
     "cat": "Street",
-    "ratio": 2.04,
-    "home": 5
+    "ratio": 2.04
   },
   {
     "id": "ABS07730-3_up3xtd",
