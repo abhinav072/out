@@ -1,0 +1,98 @@
+{
+  "site": {
+    "name": "Abhinav Singh",
+    "tagline": "Shades of India",
+    "location": "Prayagraj, India",
+    "footer": "© 2026 Abhinav Singh — Prayagraj, India"
+  },
+  "contact": {
+    "email": "hello.abhinav07@gmail.com",
+    "phone": "+91 99849 39011",
+    "address": "Prayagraj, Uttar Pradesh, India",
+    "instagram": "https://www.instagram.com/shades.of.india_/",
+    "pinterest": "https://in.pinterest.com/singhabhinav2407/",
+    "facebook": "https://www.facebook.com/abhinav.singh.478618/"
+  },
+  "seo": {
+    "home_title": "Abhinav Singh — Photographer & Filmmaker",
+    "home_description": "Fashion, events, street, architecture and landscape photography and films by Abhinav Singh, based in Prayagraj, India.",
+    "portfolio_title": "Portfolio — Abhinav Singh",
+    "portfolio_description": "Fashion, landscape, street, architecture and event photography by Abhinav Singh.",
+    "videography_title": "Videography — Abhinav Singh",
+    "videography_description": "Films, trailers, teasers and short-form edits directed, shot and edited by Abhinav Singh.",
+    "about_title": "About — Abhinav Singh",
+    "about_description": "Abhinav Singh is a photographer and filmmaker based in Prayagraj, India.",
+    "contact_title": "Contact — Abhinav Singh",
+    "contact_description": "Book a shoot or start a collaboration with photographer and filmmaker Abhinav Singh."
+  },
+  "intro": {
+    "coords": "Prayagraj · 25.44° N · 81.85° E"
+  },
+  "home": {
+    "strip_label": "Selected work",
+    "strip_end_title": "See the full portfolio",
+    "strip_end_sub": "Fashion · Landscape · Street · Architecture · Events",
+    "intro_label": "Introduction",
+    "intro_lead": "Photographer and filmmaker based in Prayagraj, India.",
+    "intro_body": "Fashion, live events, streets, architecture and landscapes — photographed for the feeling as much as the frame.",
+    "intro_link_about": "About me",
+    "intro_link_book": "Book a shoot",
+    "genres_label": "Browse by genre",
+    "genres_link": "All work",
+    "featured_label": "Featured",
+    "featured_sub": "A few favourites",
+    "films_label": "Videography",
+    "films_link": "All films →",
+    "edit_label": "The edit",
+    "edit_sub": "Before / after",
+    "edit_title": "From capture to finished photograph.",
+    "edit_body": "Every image is carefully edited and colour-graded to bring out its light, depth and mood. Drag across the frame to compare.",
+    "cta_label": "Available for commissions & collaborations",
+    "cta_title": "Let’s work together.",
+    "cta_button": "Book a shoot"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "selected_label": "Selected",
+    "more_label": "Browse by genre",
+    "more_sub": "Everything, sorted"
+  },
+  "videography": {
+    "title": "Videography",
+    "films_label": "Films",
+    "films_sub": "Trailers · teasers · event films",
+    "shorts_label": "Short form",
+    "shorts_sub": "Reels · edits · shorts",
+    "play": "Play film"
+  },
+  "about": {
+    "lead": "I’m Abhinav Singh, a photographer and filmmaker based in Prayagraj, India.",
+    "body": "I photograph fashion, live events, streets, architecture and landscapes, and direct, shoot and edit short films. My work is about light, people and place — moments that tell a story and still feel alive long after they’re captured.",
+    "available": "I’m available for commissions and collaborations.",
+    "available_link": "Get in touch",
+    "services_label": "Services",
+    "services": [
+      { "name": "Fashion", "text": "Editorial, lookbook and portrait shoots for designers, labels and models." },
+      { "name": "Events & concerts", "text": "Concerts, performances and festivals, from soundcheck to encore." },
+      { "name": "Street & documentary", "text": "Candid stories of people, rituals and everyday life." },
+      { "name": "Architecture & places", "text": "Heritage sites, buildings and landscapes, with care for light and line." },
+      { "name": "Films & video", "text": "Trailers, teasers, event films and short-form edits — directed, shot and edited." }
+    ],
+    "video_label": "Videography",
+    "video_text": "I direct, shoot and edit films and short-form edits — trailers, teasers, event films and reels.",
+    "video_link": "Watch the films",
+    "edit_label": "The edit",
+    "edit_text": "Every image is carefully edited and colour-graded. Drag across to compare the original captures with the finished photographs."
+  },
+  "contact_page": {
+    "title": "Let’s work together.",
+    "lead": "Tell me about your shoot, event or film — dates, location and what you need. I’ll get back to you personally.",
+    "form_note": "Opens your email app with the message ready to send.",
+    "form_button": "Send",
+    "work_types": ["Fashion", "Event / concert", "Street & documentary", "Architecture & places", "Film / video", "Short-form edit", "Something else"]
+  },
+  "notfound": {
+    "title": "This page doesn’t exist.",
+    "text": "It may have moved. Try the homepage or the portfolio instead."
+  }
+}
