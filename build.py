@@ -127,14 +127,16 @@ def page_home():
     strip += (f'<figure><a class="end" href="portfolio.html"><div><b data-edit="home.strip_end_title">{t("home.strip_end_title")}</b>'
               f'{ed("home.strip_end_sub", cls="caps muted")}</div></a></figure>')
     feat = by("featured")
-    featured = ""
+    # Featured: the first photo grows from a framed print to full screen as you scroll
+    fa = ""
     if feat:
         w = feat[0]
-        featured += f'<figure class="wide"><img src="{img(w["src"], "f_auto,q_auto,w_2400")}" alt="{esc(w["title"])}" loading="lazy"><figcaption>{esc(w["title"])}<span>{lab(w["cat"])}</span></figcaption></figure>'
+        fa = (f'<div class="fa-track"><div class="fa-sticky"><figure class="fa-frame"><img src="{img(w["src"], "f_auto,q_auto,w_2400")}" alt="{esc(w["title"])}" loading="lazy"></figure>'
+              f'<div class="fa-title"><span class="caps">No. 01 — {lab(w["cat"])}</span><h3>{esc(w["title"])}</h3></div></div></div>')
         if len(feat) > 1:
-            featured += '<div class="pair">' + "".join(
-                f'<figure><img src="{img(p["src"], "f_auto,q_auto,w_1200,c_fill,ar_4:5,g_auto")}" alt="{esc(p["title"])}" loading="lazy"><figcaption>{esc(p["title"])}<span>{lab(p["cat"])}</span></figcaption></figure>'
-                for p in feat[1:3]) + "</div>"
+            fa += '<div class="fa-pair">' + "".join(
+                f'<figure data-speed="{sp}"><img src="{img(p["src"], "f_auto,q_auto,w_1200,c_fill,ar_4:5,g_auto")}" alt="{esc(p["title"])}" loading="lazy"><figcaption>No. 0{i + 2} — {esc(p["title"])}<span>{lab(p["cat"])}</span></figcaption></figure>'
+                for i, (p, sp) in enumerate(zip(feat[1:3], ("0.12", "-0.08")))) + "</div>"
     films = "".join(
         f'<a href="videography.html#films"><div class="fr"><img src="{VID}{f["poster"]}/w_1400,f_auto,q_auto/{f["src"]}.jpg" alt="" loading="lazy">'
         f'<span class="play">Play</span></div><p><span>{esc(f["title"])}</span><span>{esc(f.get("caption") or f.get("kind", ""))}</span></p></a>'
@@ -163,9 +165,9 @@ def page_home():
   <div class="gindex" id="gindex"></div>
 </section>
 
-<section class="hsec feature">
+<section class="hsec feature feat-a" id="feat-a">
   <div class="shead">{ed("home.featured_label", cls="caps")}{ed("home.featured_sub", cls="caps muted")}</div>
-  {featured}
+  {fa}
 </section>
 
 <section class="hsec">
@@ -187,7 +189,7 @@ def page_home():
   <div class="row"><a class="btn caps" href="contact.html" data-edit="home.cta_button">{t("home.cta_button")}</a><a class="link" href="mailto:{esc(EMAIL)}">{esc(EMAIL)}</a></div>
 </section>
 {foot()}
-''' + scripts(["gindex", "home", "intro"])
+''' + scripts(["gindex", "home", "featured", "intro"])
 
 
 # ---------------------------------------------------------------- PORTFOLIO

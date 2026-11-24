@@ -63,20 +63,24 @@
     out += '<g class="place"><circle cx="' + n(gk[0]) + '" cy="' + n(gk[1]) + '" r="3"/><circle class="ring" cx="' + n(gk[0]) + '" cy="' + n(gk[1]) + '" r="8"/>' +
       '<text text-anchor="end" x="' + n(gk[0] - 12) + '" y="' + n(gk[1] + 16) + '">Prayagraj</text></g>';
     out += "</g>";
-    // clear space around the badge, then the compass scale
-    out += '<circle class="halo" cx="' + n(cx) + '" cy="' + n(cy) + '" r="' + n(R + 34) + '"/>';
-    out += '<g class="g-ticks">';
-    var rt = R + 14;
+    // the compass scale lives inside the badge's own box, so it always stays centred on the badge
+    var wrap = el.querySelector(".badge-wrap"), badgeEl = el.querySelector(".badge");
+    var cs = wrap.querySelector("svg.compass");
+    if (!cs) { cs = document.createElementNS("http://www.w3.org/2000/svg", "svg"); cs.setAttribute("class", "compass"); cs.setAttribute("aria-hidden", "true"); wrap.appendChild(cs); }
+    var bw = badgeEl.getBoundingClientRect().width, Rb = bw / 2 * 0.98, size = Math.ceil(bw + 120), c0 = size / 2;
+    cs.setAttribute("viewBox", "0 0 " + size + " " + size);
+    cs.style.width = cs.style.height = size + "px";
+    var co = '<g class="g-ticks">', rr = Rb + 14;
     for (var d = 0; d < 360; d += 5) {
       var tt = (d - 90) * Math.PI / 180, big = d % 30 === 0, len = big ? 8 : 3.5;
-      out += '<line class="' + (big ? "big" : "") + '" x1="' + n(cx + Math.cos(tt) * rt) + '" y1="' + n(cy + Math.sin(tt) * rt) +
-        '" x2="' + n(cx + Math.cos(tt) * (rt + len)) + '" y2="' + n(cy + Math.sin(tt) * (rt + len)) + '"/>';
+      co += '<line class="' + (big ? "big" : "") + '" x1="' + n(c0 + Math.cos(tt) * rr) + '" y1="' + n(c0 + Math.sin(tt) * rr) +
+        '" x2="' + n(c0 + Math.cos(tt) * (rr + len)) + '" y2="' + n(c0 + Math.sin(tt) * (rr + len)) + '"/>';
     }
     [["N", 0], ["E", 90], ["W", 270]].forEach(function (q) {
-      var tc = (q[1] - 90) * Math.PI / 180, rl = rt + 20;
-      out += '<text class="g-lbl" x="' + n(cx + Math.cos(tc) * rl) + '" y="' + n(cy + Math.sin(tc) * rl) + '">' + q[0] + "</text>";
+      var tc = (q[1] - 90) * Math.PI / 180, rl = rr + 20;
+      co += '<text class="g-lbl" x="' + n(c0 + Math.cos(tc) * rl) + '" y="' + n(c0 + Math.sin(tc) * rl) + '">' + q[0] + "</text>";
     });
-    out += "</g>";
+    cs.innerHTML = co + "</g>";
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.style.setProperty("--cx", n(cx) + "px");
     svg.style.setProperty("--cy", n(cy) + "px");
@@ -89,7 +93,7 @@
   function speedUp() { if (document.getAnimations) document.getAnimations().forEach(function (a) { if (a.playbackRate !== SPEED) a.playbackRate = SPEED; }); }
   speedUp();
   ready.then(function () { requestAnimationFrame(function () { drawMap(); requestAnimationFrame(speedUp); }); });
-  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { if (document.getElementById("intro")) drawMap(); }, 120); });
+  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { if (document.getElementById("intro")) { el.classList.add("drawn"); drawMap(); } }, 120); });
 
   var done = false;
   function finish() {
