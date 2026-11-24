@@ -641,10 +641,13 @@ html.rt-arrive.rt-go body::before, html.rt-arrive.rt-go body::after { opacity: 0
 
 /* ===== Footer: every page as a large link with a river underline ===== */
 .sitefoot { display: block; position: relative; padding: 0 var(--g) 28px; margin-top: clamp(90px, 11vw, 160px); border-top: 0; color: var(--muted); font-size: 12px; }
-.ft-river { display: block; width: calc(100% + var(--g) * 2); height: auto; aspect-ratio: 1200 / 230; margin: 0 calc(var(--g) * -1); }
-.ft-river { clip-path: inset(0 100% 0 0); transition: clip-path 3s var(--ease); }
-.ft-river path { fill: none; stroke: #bdbdbd; stroke-width: 1; vector-effect: non-scaling-stroke; }
-.sitefoot.in .ft-river { clip-path: inset(0 0 0 0); }
+.ft-ridge { position: absolute; left: 0; right: 0; top: 0; width: 100%; height: auto; aspect-ratio: 1200 / 330; z-index: 0; pointer-events: none;
+  opacity: 0; transform: translateY(24px); transition: opacity 1.6s var(--ease), transform 1.8s var(--ease); }
+.ft-ridge .fill { fill: url(#ftg); }
+.ft-ridge .edge { fill: none; stroke: url(#fte); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.sitefoot.in .ft-ridge { opacity: 1; transform: none; }
+.sitefoot > :not(.ft-ridge) { position: relative; z-index: 1; }
+.sitefoot { padding-top: clamp(70px, 13vw, 190px); }
 .ft-head { display: flex; justify-content: space-between; padding: 26px 0 10px; }
 .ft-top:hover { color: var(--text); }
 .ft-pages { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 32px; padding: clamp(18px, 2.4vw, 30px) 0 clamp(44px, 6vw, 76px); }
@@ -670,4 +673,4 @@ html.rt-arrive.rt-go body::before, html.rt-arrive.rt-go body::after { opacity: 0
   .ft-pages:hover a { color: var(--text); }
   .ft-base { flex-direction: column; align-items: flex-start; }
 }
-@media (prefers-reduced-motion: reduce) { .ft-river { clip-path: none; transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ft-ridge { opacity: 1; transform: none; transition: none; } }
