@@ -429,8 +429,7 @@
     "src": "v1770740354/ABS03645_yukarm.webp",
     "title": "Red tide",
     "cat": "Landscape",
-    "ratio": 1.78,
-    "home": 11
+    "ratio": 1.78
   },
   {
     "id": "ABS00499_mprshr",
@@ -439,5 +438,13 @@
     "cat": "Street",
     "ratio": 0.8,
     "home": 12
+  },
+  {
+    "id": "ABS03404_oxhlkk",
+    "src": "v1770736891/ABS03404_oxhlkk.webp",
+    "title": "Shoreline walk",
+    "cat": "Landscape",
+    "ratio": 1.78,
+    "home": 11
   }
 ]
