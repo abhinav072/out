@@ -107,9 +107,9 @@ def foot(active="", base=""):
     pages = [(base or "./", "Home")] + [(base + h, l) for h, l in NAV]
     wave = '<svg class="wave" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 4 C 8 0, 17 0, 25 4 S 42 8, 50 4 S 67 0, 75 4 S 92 8, 100 4"/></svg>'
     links = "".join(f'<a href="{h}"{" aria-current=\"page\"" if l == active else ""}><span>{l}</span>{wave}</a>' for h, l in pages)
-    soc = (f'<a href="{t("contact.instagram")}" target="_blank" rel="noopener">Instagram ↗</a>'
-           f'<a href="{t("contact.pinterest")}" target="_blank" rel="noopener">Pinterest ↗</a>'
-           f'<a href="{t("contact.facebook")}" target="_blank" rel="noopener">Facebook ↗</a>')
+    soc = (f'<a href="{t("contact.instagram")}" target="_blank" rel="noopener">Instagram</a>'
+           f'<a href="{t("contact.pinterest")}" target="_blank" rel="noopener">Pinterest</a>'
+           f'<a href="{t("contact.facebook")}" target="_blank" rel="noopener">Facebook</a>')
     return (f'<footer class="sitefoot"><svg class="ft-river" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">'
             f'<path pathLength="1" d="M0 22 C 120 6, 220 34, 340 20 S 560 4, 700 18 S 940 38, 1060 16 S 1170 10, 1200 18"/></svg>'
             f'<div class="ft-head"><span class="caps muted">Explore</span><a class="caps muted ft-top" href="#top">Back to top ↑</a></div>'
