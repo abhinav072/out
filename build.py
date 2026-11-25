@@ -255,7 +255,7 @@ def page_portfolio():
 <main class="page">
   <div class="page-head">{ed("portfolio.title", "h1")}<div class="filters" id="filters" data-selected-label="{t("portfolio.selected_label")}"></div></div>
   <div class="jgrid" id="grid"></div>
-  <section class="more" id="more" hidden><div class="shead more-head">{ed("portfolio.more_label", cls="caps")}{ed("portfolio.more_sub", cls="caps muted")}</div><div class="gv3">{genre_cards()}</div></section>
+  <section class="more" id="more" hidden><div class="shead more-head">{ed("portfolio.more_label", cls="caps")}</div><div class="gv3">{genre_cards()}</div></section>
 </main>
 {foot("Portfolio")}
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
