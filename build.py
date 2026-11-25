@@ -85,7 +85,6 @@ def head(page, extra_class="", extra_fonts="", base=""):
 <link rel="icon" href="{base}assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{base}assets/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="{base}assets/css/site.css">
-<script>try{{var _v=(location.search.match(/[?&]v=([123])/)||[])[1];if(_v){{document.documentElement.setAttribute("data-v",_v);document.documentElement.classList.add("vpick")}}}}catch(e){{}}</script>
 <script>try{{if(sessionStorage.getItem("rt")==="1"){{sessionStorage.removeItem("rt");if(!matchMedia("(prefers-reduced-motion: reduce)").matches){{var d=document.documentElement;d.classList.add("rt-arrive");d.style.setProperty("--rt-name",JSON.stringify(sessionStorage.getItem("rtName")||""))}}}}}}catch(e){{}}</script>
 </head><body>'''
 
@@ -129,6 +128,24 @@ def by(flag):
     return sorted([p for p in PHOTOS if p.get(flag) and p.get("src")], key=lambda p: p[flag])
 
 
+def genre_cards():
+    """Five tall cover cards, one per genre, each showing that genre's best photo."""
+    def cover(cat):
+        pool = [p for p in PHOTOS if p["cat"] == cat and p.get("src")]
+        for f in ("home", "featured", "selected"):
+            hit = sorted([p for p in pool if p.get(f)], key=lambda p: p[f])
+            if hit:
+                return hit[0]
+        return pool[0] if pool else None
+    out = ""
+    for cat, key in (("Fashion", "fashion"), ("Landscape", "landscape"), ("Street", "street"), ("Architecture", "architecture"), ("Event", "event")):
+        p = cover(cat)
+        pic = f'<img src="{img(p["src"], "c_fill,w_900,h_1300,g_auto,f_auto,q_auto")}" alt="" loading="lazy">' if p else ""
+        out += (f'<a href="portfolio.html?cat={key}"><div class="gv3-c">{pic}</div>'
+                f'<span class="gv3-n">{lab(cat)}</span><span class="gv3-v caps muted">View →</span></a>')
+    return out
+
+
 # ---------------------------------------------------------------- HOME
 def page_home():
     strip = ""
@@ -161,25 +178,6 @@ def page_home():
         f'<span class="play">Play</span></div><p><span>{esc(f["title"])}</span><span>{esc(f.get("caption") or f.get("kind", ""))}</span></p></a>'
         for f in FILMS[:2])
     before, after = "v1742964206/Before_wd7ubm.jpg", "v1742964213/After_jahjvd.jpg"
-    # genre covers: the best photo of each genre (homepage, then featured, then selected, then any)
-    def cover(cat):
-        pool = [p for p in PHOTOS if p["cat"] == cat and p.get("src")]
-        for f in ("home", "featured", "selected"):
-            hit = sorted([p for p in pool if p.get(f)], key=lambda p: p[f])
-            if hit:
-                return hit[0]
-        return pool[0] if pool else None
-    GEN = [("Fashion", "fashion"), ("Landscape", "landscape"), ("Street", "street"), ("Architecture", "architecture"), ("Event", "event")]
-    covers = [(lab(c), k, cover(c)) for c, k in GEN]
-    def gimg(p, tr):
-        return img(p["src"], tr) if p else ""
-    g1 = "".join(f'<a href="portfolio.html?cat={k}" style="--i:{i}"><img src="{gimg(p, "c_fill,w_1100,h_1400,g_auto,f_auto,q_auto")}" alt="" loading="lazy">'
-                 f'<span class="gv1-n caps">{n}</span><span class="gv1-v caps">View collection →</span></a>' for i, (n, k, p) in enumerate(covers))
-    g2 = "".join(f'<li><a href="portfolio.html?cat={k}" data-i="{i}"{" class=\"on\"" if i == 0 else ""}><span>{n}</span>'
-                 f'<img class="gv2-th" src="{gimg(p, "c_fill,w_200,h_250,g_auto,f_auto,q_auto")}" alt="" loading="lazy"><i aria-hidden="true">→</i></a></li>' for i, (n, k, p) in enumerate(covers))
-    g2img = "".join(f'<img src="{gimg(p, "c_fill,w_1200,h_1500,g_auto,f_auto,q_auto")}" alt=""{" class=\"on\"" if i == 0 else ""} loading="lazy">' for i, (n, k, p) in enumerate(covers))
-    g3 = "".join(f'<a href="portfolio.html?cat={k}"><div class="gv3-c"><img src="{gimg(p, "c_fill,w_900,h_1300,g_auto,f_auto,q_auto")}" alt="" loading="lazy"></div>'
-                 f'<span class="gv3-n">{n}</span><span class="gv3-v caps muted">View →</span></a>' for i, (n, k, p) in enumerate(covers))
     cine = img("v1770736883/ABS02050_w8pfaw.webp", "f_auto,q_auto,w_2400")
     portrait = img("v1744039751/ABS09606-foto_itaa9d.png", "c_crop,w_0.7,h_0.7,g_center/w_1100,h_1375,c_fill,f_auto,q_auto")
     # small photos set into the introduction sentence: you, a fashion frame, an event frame
@@ -200,7 +198,7 @@ def page_home():
 <footer class="foot">{ed("home.strip_label", cls="caps muted")}<div class="ctl"><div class="arrows"><button id="prev" type="button" aria-label="Previous photo">{ARROW_L}</button><button id="next" type="button" aria-label="Next photo">{ARROW_R}</button></div></div></footer>
 </div>
 
-<section class="hsec iv vopt v1">
+<section class="hsec iv iv1 iv-m">
   <span class="caps muted iv1-k">Introduction</span>
   <p class="iv1-q" data-edit="home.intro_body">{t("home.intro_body")}</p>
   <span class="iv1-rule" aria-hidden="true"></span>
@@ -209,23 +207,7 @@ def page_home():
   <div class="iv1-links"><a class="link" href="about.html" data-edit="home.intro_link_about">{t("home.intro_link_about")}</a><a class="link" href="contact.html" data-edit="home.intro_link_book">{t("home.intro_link_book")}</a></div>
 </section>
 
-<section class="hsec iv vopt v2"><div class="iv2">
-  <figure class="iv2-ph"><img src="{portrait}" alt="Portrait of {t("site.name")}" loading="lazy"></figure>
-  <div class="iv2-tx">
-    <span class="caps muted">Introduction</span>
-    <h2>{t("site.name")}</h2>
-    <p class="iv2-lead" data-edit="home.intro_lead">{t("home.intro_lead")}</p>
-    <p class="iv2-body" data-edit="home.intro_body">{t("home.intro_body")}</p>
-    <dl class="hfacts">
-      <div><dt class="caps muted" data-edit="home.fact1_label">{t("home.fact1_label")}</dt><dd data-edit="home.fact1">{t("home.fact1")}</dd></div>
-      <div><dt class="caps muted" data-edit="home.fact2_label">{t("home.fact2_label")}</dt><dd data-edit="home.fact2">{t("home.fact2")}</dd></div>
-      <div><dt class="caps muted" data-edit="home.fact3_label">{t("home.fact3_label")}</dt><dd data-edit="home.fact3">{t("home.fact3")}</dd></div>
-    </dl>
-    <div class="iv2-links"><a class="link" href="about.html" data-edit="home.intro_link_about">{t("home.intro_link_about")}</a><a class="link" href="contact.html" data-edit="home.intro_link_book">{t("home.intro_link_book")}</a></div>
-  </div>
-</div></section>
-
-<section class="iv vopt v3 iv3">
+<section class="iv iv3 iv-d">
   <img class="iv3-bg" src="{cine}" alt="" loading="lazy">
   <div class="iv3-tx">
     <span class="caps">Introduction · {t("site.location")}</span>
@@ -237,9 +219,7 @@ def page_home():
 
 <section class="hsec gv">
   <div class="shead">{ed("home.genres_label", cls="caps")}<a class="caps muted" href="portfolio.html" data-edit="home.genres_link">{t("home.genres_link")}</a></div>
-  <div class="vopt v1 gv1">{g1}</div>
-  <div class="vopt v2 gv2"><ul>{g2}</ul><div class="gv2-frame" aria-hidden="true">{g2img}</div></div>
-  <div class="vopt v3 gv3">{g3}</div>
+  <div class="gv3">{genre_cards()}</div>
 </section>
 
 <section class="hsec feature feat-a" id="feat-a">
@@ -266,7 +246,6 @@ def page_home():
   <div class="row"><a class="btn caps" href="contact.html" data-edit="home.cta_button">{t("home.cta_button")}</a><a class="link" href="mailto:{esc(EMAIL)}">{esc(EMAIL)}</a></div>
 </section>
 {foot("Home")}
-<div class="vsw" aria-label="Design options"><span class="caps">Option</span><button type="button" data-v="1">1</button><button type="button" data-v="2">2</button><button type="button" data-v="3">3</button></div>
 ''' + scripts(["gindex", "home", "featured", "intro"])
 
 
@@ -276,7 +255,7 @@ def page_portfolio():
 <main class="page">
   <div class="page-head">{ed("portfolio.title", "h1")}<div class="filters" id="filters" data-selected-label="{t("portfolio.selected_label")}"></div></div>
   <div class="jgrid" id="grid"></div>
-  <section class="more" id="more" hidden><div class="shead more-head">{ed("portfolio.more_label", cls="caps")}{ed("portfolio.more_sub", cls="caps muted")}</div><div class="gindex" id="gindex"></div></section>
+  <section class="more" id="more" hidden><div class="shead more-head">{ed("portfolio.more_label", cls="caps")}{ed("portfolio.more_sub", cls="caps muted")}</div><div class="gv3">{genre_cards()}</div></section>
 </main>
 {foot("Portfolio")}
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">

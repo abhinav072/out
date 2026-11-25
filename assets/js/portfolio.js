@@ -59,7 +59,7 @@
     list = cur === "all" ? mixed() : PHOTOS.filter(function (p) { return p.cat.toLowerCase() === cur; });
     filters.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.c === cur)); });
     var MODE = cur === "all" ? "editorial" : "grid";   // "Selected" = the photos marked Selected, in the editorial layout
-    var more = document.getElementById("more"); if (more) { more.hidden = MODE !== "editorial"; if (!more.hidden && !more.dataset.done) { renderGenreIndex(document.getElementById("gindex")); more.dataset.done = "1"; } }
+    var more = document.getElementById("more"); if (more) { more.hidden = MODE !== "editorial"; }
     grid.className = "jgrid mode-" + MODE;
     var k = 0;
     function tile(p, extra, style) {

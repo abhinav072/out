@@ -54,28 +54,12 @@
   window.addEventListener("resize", update);
 })();
 
-/* Review options: switcher (?v=1|2|3), reveal on view, genre list photo change */
+/* Introduction photograph eases in when it comes into view */
 (function () {
   "use strict";
-  var root = document.documentElement;
-  var sw = document.querySelector(".vsw");
-  function mark() { var v = root.getAttribute("data-v") || "1"; if (sw) Array.prototype.forEach.call(sw.querySelectorAll("button"), function (b) { b.classList.toggle("on", b.dataset.v === v); }); }
-  if (sw) sw.addEventListener("click", function (e) {
-    var b = e.target.closest("button"); if (!b) return;
-    root.setAttribute("data-v", b.dataset.v); mark();
-    try { var u = new URL(location.href); u.searchParams.set("v", b.dataset.v); history.replaceState(null, "", u); } catch (err) {}
-    window.dispatchEvent(new Event("resize"));
-  });
-  mark();
   var ivs = document.querySelectorAll(".iv");
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("in"); }); }, { threshold: 0.25 });
     Array.prototype.forEach.call(ivs, function (s) { io.observe(s); });
   } else Array.prototype.forEach.call(ivs, function (s) { s.classList.add("in"); });
-  var g2 = document.querySelector(".gv2");
-  if (g2) {
-    var links = g2.querySelectorAll("li a"), pics = g2.querySelectorAll(".gv2-frame img");
-    function show(i) { Array.prototype.forEach.call(links, function (a, k) { a.classList.toggle("on", k === i); }); Array.prototype.forEach.call(pics, function (p, k) { p.classList.toggle("on", k === i); }); }
-    Array.prototype.forEach.call(links, function (a, i) { a.addEventListener("mouseenter", function () { show(i); }); a.addEventListener("focus", function () { show(i); }); });
-  }
 })();
