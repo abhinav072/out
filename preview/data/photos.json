@@ -27,43 +27,44 @@
     "featured": 2
   },
   {
-    "id": "fashion-04",
-    "src": "",
-    "title": "",
+    "id": "ALP04601_jfedtq",
+    "src": "v1795633988/ALP04601_jfedtq.webp",
+    "title": "Monochrome lounge",
     "cat": "Fashion",
-    "ratio": 0.67,
+    "ratio": 0.8,
     "selected": true
   },
   {
-    "id": "fashion-05",
-    "src": "",
-    "title": "",
+    "id": "ALP04684_pxqxri",
+    "src": "v1795633983/ALP04684_pxqxri.webp",
+    "title": "Elevator glance",
     "cat": "Fashion",
-    "ratio": 0.67,
+    "ratio": 1.5,
     "selected": true
   },
   {
-    "id": "fashion-06",
-    "src": "",
-    "title": "",
-    "cat": "Fashion",
-    "ratio": 1.33,
-    "selected": true
-  },
-  {
-    "id": "fashion-07",
-    "src": "",
-    "title": "",
+    "id": "ALP04038_fw5eye",
+    "src": "v1795633983/ALP04038_fw5eye.webp",
+    "title": "Brocade & black",
     "cat": "Fashion",
     "ratio": 0.75,
     "selected": true
   },
   {
-    "id": "fashion-08",
-    "src": "",
-    "title": "",
+    "id": "ALP04435_nvownd",
+    "src": "v1795633982/ALP04435_nvownd.webp",
+    "title": "Denim corset",
     "cat": "Fashion",
-    "ratio": 0.67
+    "ratio": 0.8,
+    "selected": true
+  },
+  {
+    "id": "ALP04523_m9ivoe",
+    "src": "v1795633981/ALP04523_m9ivoe.webp",
+    "title": "Upside down",
+    "cat": "Fashion",
+    "ratio": 1.5,
+    "selected": true
   },
   {
     "id": "ABS09260_k4o8rr",
@@ -453,5 +454,29 @@
     "cat": "Event",
     "ratio": 1.5,
     "featured": 1
+  },
+  {
+    "id": "ALP04647_tltwvi",
+    "src": "v1795633981/ALP04647_tltwvi.webp",
+    "title": "Ivory in steel",
+    "cat": "Fashion",
+    "ratio": 0.67,
+    "selected": true
+  },
+  {
+    "id": "ALP08623_kvh0mu",
+    "src": "v1795633980/ALP08623_kvh0mu.webp",
+    "title": "Gold armour",
+    "cat": "Fashion",
+    "ratio": 0.67,
+    "selected": true
+  },
+  {
+    "id": "ALP04945_lrgrik",
+    "src": "v1795633979/ALP04945_lrgrik.webp",
+    "title": "White wings",
+    "cat": "Fashion",
+    "ratio": 0.67,
+    "selected": true
   }
 ]
